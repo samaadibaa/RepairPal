@@ -16,12 +16,21 @@ class Technician(models.Model):
 class Appointment(models.Model):
     date_time = models.DateTimeField()
     reason = models.CharField(max_length=200)
-    status = models.CharField(max_length=200)
     vin = models.CharField(max_length=200)
     customer = models.CharField(max_length=200)
+
+    status = models.CharField(max_length=25, default="created", null=True)
 
     technician = models.ForeignKey(
         Technician,
         related_name="appointments",
         on_delete=models.CASCADE,
     )
+
+    def cancel_appointment(self):
+        self.status = "canceled"
+        self.save()
+
+    def finish_appointment(self):
+        self.status = "finished"
+        self.save()

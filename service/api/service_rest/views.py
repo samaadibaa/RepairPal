@@ -29,7 +29,7 @@ def api_list_technicians(request):
         if Technician.objects.filter(employee_id=content["employee_id"]).exists():
             return JsonResponse(
                 {"message": "employee_id already exists"},
-                status=400,
+                status=404,
             )
         technician = Technician.objects.create(**content)
         return JsonResponse(
@@ -52,7 +52,7 @@ def api_show_technician(request, pk):
         except Technician.DoesNotExist:
             return JsonResponse(
                 {"message": "this technician does not exist"},
-                status=400,
+                status=404,
             )
     else:
         try:
@@ -61,7 +61,7 @@ def api_show_technician(request, pk):
         except Technician.DoesNotExist:
             return JsonResponse(
                 {"message": "this technician does not exist"},
-                status=400,
+                status=404,
             )
 
 
@@ -76,6 +76,7 @@ def api_list_appointments(request):
         )
     else:
         content = json.loads(request.body)
+        print(content)
         try:
             technician_id = content["technician"]
             technician = Technician.objects.get(id=technician_id)
@@ -83,7 +84,7 @@ def api_list_appointments(request):
         except Technician.DoesNotExist:
             return JsonResponse(
                 {"message": "invalid technician id"},
-                status=400,
+                status=404,
             )
         appointment = Appointment.objects.create(**content)
         return JsonResponse(
@@ -106,7 +107,7 @@ def api_show_appointment(request, pk):
         except Appointment.DoesNotExist:
             return JsonResponse(
                 {"message": "this appointment does not exists"},
-                status=400,
+                status=404,
             )
     else:
         try:
@@ -115,5 +116,39 @@ def api_show_appointment(request, pk):
         except Appointment.DoesNotExist:
             return JsonResponse(
                 {"message": "this appointment does not exists"},
-                status=400,
+                status=404,
             )
+
+
+@require_http_methods(["PUT"])
+def api_cancel_appointment(request, pk):
+    try:
+        appointment = Appointment.objects.get(id=pk)
+        appointment.cancel_appointment()
+        return JsonResponse(
+            appointment,
+            encoder=AppointmentEncoder,
+            safe=False,
+        )
+    except Appointment.DoesNotExist:
+        return JsonResponse(
+            {"message": "this appointment does not exists"},
+            status=404,
+        )
+
+
+@require_http_methods(["PUT"])
+def api_finish_appointment(request, pk):
+    try:
+        appointment = Appointment.objects.get(id=pk)
+        appointment.finish_appointment()
+        return JsonResponse(
+            appointment,
+            encoder=AppointmentEncoder,
+            safe=False,
+        )
+    except Appointment.DoesNotExist:
+        return JsonResponse(
+            {"message": "this appointment does not exists"},
+            status=404,
+        )
