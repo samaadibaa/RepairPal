@@ -5,6 +5,7 @@ from .models import AutomobileVO, Technician, Appointment
 class AutomobileVOEncorder(ModelEncoder):
     model = AutomobileVO
     properties = [
+        "id",
         "vin",
         "sold",
         "import_href",
@@ -17,12 +18,14 @@ class TechnicianEncoder(ModelEncoder):
         "first_name",
         "last_name",
         "employee_id",
+        "id",
     ]
 
 
 class AppointmentEncoder(ModelEncoder):
     model = Appointment
     properties = [
+        "id",
         "date_time",
         "reason",
         "status",
