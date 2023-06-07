@@ -99,7 +99,7 @@ def api_customer(request, customer_id=None):
         return HttpResponse(status=204)
 
 
-@require_http_methods(["GET"])
+@require_http_methods(["GET", "DELETE"])
 def api_sales(request, pk):
     if request.method == "GET":
         sales_record = Sale.objects.filter(salesman=pk)
@@ -116,6 +116,13 @@ def api_sales(request, pk):
             encoder=SaleEncoder,
             safe=False,
         )
+    elif request.method == "DELETE":
+        try:
+            sale = Sale.objects.get(id=pk)
+            sale.delete()
+            return JsonResponse({"message": "Sale record deleted successfully."})
+        except Sale.DoesNotExist:
+            return JsonResponse({"error": "Sale record not found."}, status=404)
 
 
 @require_http_methods(["GET", "POST"])
