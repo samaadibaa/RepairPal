@@ -11,3 +11,4 @@ urlpatterns = [
     path("sales/<int:auto_vo_id>/", api_list_sales, name="api_list_sales_auto"),
     path("salesperson/<int:salesperson_id>/", api_sales_person, name="api_sales_person_detail"),
 ]
+
