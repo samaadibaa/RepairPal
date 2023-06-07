@@ -1,7 +1,43 @@
 import React, { useState, useEffect } from "react";
 import Moment from "moment";
-import moment from "moment";
 
+// mark appointment as 'canceled'
+async function CancelAppointment(id) {
+  const url = `http://localhost:8080/api/appointments/${id}/cancel`;
+  const fetchConfig = {
+    method: "PUT",
+  };
+
+  const response = await fetch(url, fetchConfig);
+
+  if (!response.ok) {
+    console.log("Unable to cancel appointment!");
+  } else {
+    const appointment = await response.json();
+    console.log(appointment);
+  }
+  window.location.reload();
+}
+
+// mark appointment as 'finished'
+async function FinishAppointment(id) {
+  const url = `http://localhost:8080/api/appointments/${id}/finish`;
+  const fetchConfig = {
+    method: "PUT",
+  };
+
+  const response = await fetch(url, fetchConfig);
+
+  if (!response.ok) {
+    console.log("Unable to mark appointment as 'finished'!");
+  } else {
+    const appointment = await response.json();
+    console.log(appointment);
+  }
+  window.location.reload();
+}
+
+// default function to show all appointments
 function AppointmentsList() {
   // fetch appointments
   const [appointments, setAppointments] = useState([]);
@@ -11,6 +47,7 @@ function AppointmentsList() {
     if (response.ok) {
       const data = await response.json();
       setAppointments(data.appointments);
+      console.log(data.appointments);
     }
   }
 
@@ -25,7 +62,6 @@ function AppointmentsList() {
 
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
       setAutomobiles(data.autos);
     }
   }
@@ -34,9 +70,21 @@ function AppointmentsList() {
     fetchAutombiles();
   }, []);
 
+  // filter out only appointments with status = 'created'
+  const filterActiveAppointments = () => {
+    return appointments.filter(
+      (appointment) => appointment.status === "created"
+    );
+  };
+
   return (
     <div className="container">
       <h1>Service Appointments</h1>
+      {filterActiveAppointments().length === 0 && (
+        <div className="alert alert-secondary" role="alert">
+          No active appointments at the moment
+        </div>
+      )}
       <table className="table table-striped">
         <thead>
           <tr>
@@ -50,17 +98,15 @@ function AppointmentsList() {
           </tr>
         </thead>
         <tbody>
-          {appointments.map((app) => {
+          {filterActiveAppointments().map((app) => {
             return (
               <tr key={app.id}>
                 <td>{app.vin}</td>
-                {automobiles.map((auto) => {
-                  if (app.vin === auto.vin) {
-                    return <td>Yes</td>;
-                  } else {
-                    return <td>No</td>;
-                  }
-                })}
+                <td>
+                  {automobiles.some((auto) => auto.vin === app.vin)
+                    ? "Yes"
+                    : "No"}
+                </td>
                 <td>{app.customer}</td>
                 <td>{Moment(app.date).format("MMM D, YYYY")}</td>
                 <td>{Moment(app.time, "HH:mm:ss").format("hh:mm A")}</td>
@@ -68,6 +114,22 @@ function AppointmentsList() {
                   {app.technician.first_name} {app.technician.last_name}
                 </td>
                 <td>{app.reason}</td>
+                <td>
+                  <div className="row">
+                    <button
+                      onClick={() => CancelAppointment(app.id)}
+                      className="btn btn-danger btn-sm"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={() => FinishAppointment(app.id)}
+                      className="btn btn-success btn-sm"
+                    >
+                      Finish
+                    </button>
+                  </div>
+                </td>
               </tr>
             );
           })}
