@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 function TechnicianList() {
+  // fetch technicians
   const [technicians, setTechnicians] = useState([]);
-
   async function fetchTechnicians() {
     const response = await fetch("http://localhost:8080/api/technicians/");
 
@@ -18,6 +18,7 @@ function TechnicianList() {
 
   return (
     <div className="container">
+      <h1>Technicians</h1>
       <table className="table table-striped">
         <thead>
           <tr>

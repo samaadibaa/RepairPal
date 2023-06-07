@@ -18,6 +18,11 @@ function Nav() {
               Create Technician
             </NavLink>
           </li>
+          <li className="nav-item">
+            <NavLink to="appointments/" className="nav-link">
+              Appointments
+            </NavLink>
+          </li>
         </ul>
 
         <button
