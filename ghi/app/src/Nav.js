@@ -14,13 +14,18 @@ function Nav() {
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="technicians/create" className="nav-link">
+            <NavLink to="technicians/create/" className="nav-link">
               Create Technician
             </NavLink>
           </li>
           <li className="nav-item">
             <NavLink to="appointments/" className="nav-link">
               Appointments
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink to="appointments/create/" className="nav-link">
+              Create Appointment
             </NavLink>
           </li>
         </ul>
