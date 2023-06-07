@@ -8,7 +8,7 @@ function SalesHistoryList() {
 
 
     const fetchSalesman = async () => {
-        const url = "http://localhost:8090/api/salesperson/";
+        const url = "http://localhost:8090/api/salespeople/";
         const response = await fetch(url);
 
         if (response.ok) {
@@ -101,3 +101,4 @@ function SalesHistoryList() {
 }
 
 export default SalesHistoryList;
+

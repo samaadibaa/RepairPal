@@ -25,7 +25,7 @@ def api_sales_person(request, salesperson_id=None):
     elif request.method == "DELETE":
         salesperson = get_object_or_404(Salesperson, id=salesperson_id)
         salesperson.delete()
-        return HttpResponse(status=204)
+        return HttpResponse(status=200)
 
 def get_salesperson(request, salesperson_id):
     try:
@@ -55,22 +55,19 @@ def create_salesperson(request, content):
     )
 
 
-
-
-
 @require_http_methods(["GET", "POST", "DELETE"])
 def api_customer(request, customer_id=None):
     if request.method == "GET":
         if customer_id:
             customer = get_object_or_404(Customer, id=customer_id)
             return JsonResponse(
-                {"customer": customer},
+                {"customer": customer.to_dict()},  
                 encoder=CustomerEncoder,
             )
         else:
             customers = Customer.objects.all()
             return JsonResponse(
-                {"customers": customers},
+                {"customers": [c.to_dict() for c in customers]},
                 encoder=CustomerEncoder,
                 safe=False,
             )
@@ -79,7 +76,7 @@ def api_customer(request, customer_id=None):
             content = json.loads(request.body)
             customer = Customer.objects.create(**content)
             return JsonResponse(
-                customer,
+                customer.to_dict(),
                 encoder=CustomerEncoder,
                 safe=False,
             )
@@ -96,7 +93,7 @@ def api_customer(request, customer_id=None):
     elif request.method == "DELETE":
         customer = get_object_or_404(Customer, id=customer_id)
         customer.delete()
-        return HttpResponse(status=204)
+        return HttpResponse(status=200)
 
 
 @require_http_methods(["GET", "DELETE"])
@@ -140,6 +137,7 @@ def api_list_sales(request, auto_vo_id=None):
                 "customer": sale.customer.to_dict(),
                 "automobile": sale.automobile.to_dict(),
                 "price": sale.price,
+                "id": sale.id,
             })
 
         return JsonResponse(
