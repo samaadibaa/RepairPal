@@ -31,7 +31,7 @@ function VehicleModelForm() {
 
   useEffect(() => {
     fetchManufactures();
-  });
+  }, []);
 
   // handle submit
   const handleSubmit = async (event) => {
