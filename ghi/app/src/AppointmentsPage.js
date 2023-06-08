@@ -115,16 +115,23 @@ function AppointmentsList() {
                 </td>
                 <td>{app.reason}</td>
                 <td>
-                  <div className="row">
+                  <div
+                    class="btn-group"
+                    role="group"
+                    aria-label="Basic mixed styles example"
+                  >
                     <button
                       onClick={() => CancelAppointment(app.id)}
-                      className="btn btn-danger btn-sm"
+                      type="button"
+                      className="btn btn-danger"
                     >
                       Cancel
                     </button>
+
                     <button
                       onClick={() => FinishAppointment(app.id)}
-                      className="btn btn-success btn-sm"
+                      type="button"
+                      className="btn btn-success"
                     >
                       Finish
                     </button>
