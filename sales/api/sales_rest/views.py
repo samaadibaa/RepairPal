@@ -61,7 +61,7 @@ def api_customer(request, customer_id=None):
         if customer_id:
             customer = get_object_or_404(Customer, id=customer_id)
             return JsonResponse(
-                {"customer": customer.to_dict()},  
+                {"customer": customer.to_dict()},
                 encoder=CustomerEncoder,
             )
         else:
