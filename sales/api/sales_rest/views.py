@@ -61,13 +61,21 @@ def api_customer(request, customer_id=None):
         if customer_id:
             customer = get_object_or_404(Customer, id=customer_id)
             return JsonResponse(
+<<<<<<< HEAD
                 {"customer": customer.to_dict()},  # Update this line
+=======
+                {"customer": customer.to_dict()},
+>>>>>>> sales
                 encoder=CustomerEncoder,
             )
         else:
             customers = Customer.objects.all()
             return JsonResponse(
+<<<<<<< HEAD
                 {"customers": [c.to_dict() for c in customers]},  # Update this line
+=======
+                {"customers": [c.to_dict() for c in customers]},
+>>>>>>> sales
                 encoder=CustomerEncoder,
                 safe=False,
             )
@@ -76,7 +84,11 @@ def api_customer(request, customer_id=None):
             content = json.loads(request.body)
             customer = Customer.objects.create(**content)
             return JsonResponse(
+<<<<<<< HEAD
                 customer.to_dict(),  # Update this line
+=======
+                customer.to_dict(),
+>>>>>>> sales
                 encoder=CustomerEncoder,
                 safe=False,
             )

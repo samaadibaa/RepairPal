@@ -49,4 +49,7 @@ function AutomobilesList() {
 }
 
 export default AutomobilesList;
+<<<<<<< HEAD
 
+=======
+>>>>>>> sales

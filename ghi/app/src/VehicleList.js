@@ -45,4 +45,7 @@ function ModelsList() {
 }
 
 export default ModelsList;
+<<<<<<< HEAD
 
+=======
+>>>>>>> sales
