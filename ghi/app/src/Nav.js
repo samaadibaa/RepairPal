@@ -9,12 +9,17 @@ function Nav() {
         </NavLink>
         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
           <li className="nav-item">
+            <NavLink to="manufactures/create" className="nav-link">
+              Create Manufacture
+            </NavLink>
+          </li>
+          <li className="nav-item">
             <NavLink to="technicians/" className="nav-link">
               Technicians
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="technicians/create/" className="nav-link">
+            <NavLink to="technicians/create" className="nav-link">
               Create Technician
             </NavLink>
           </li>
@@ -24,12 +29,12 @@ function Nav() {
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="appointments/create/" className="nav-link">
+            <NavLink to="appointments/create" className="nav-link">
               Create Appointment
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="appointments/history/" className="nav-link">
+            <NavLink to="appointments/history" className="nav-link">
               Service History
             </NavLink>
           </li>

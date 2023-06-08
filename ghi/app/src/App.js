@@ -6,6 +6,7 @@ import TechnicianForm from "./TechnicianForm";
 import AppointmentsList from "./AppointmentsPage";
 import AppointmentForm from "./AppointmentForm";
 import ServiceHistory from "./ServiceHistory";
+import ManufactureForm from "./ManufactureForm";
 
 function App() {
   return (
@@ -14,8 +15,9 @@ function App() {
       <div className="container">
         <Routes>
           <Route path="/" element={<MainPage />} />
+          <Route path="manufactures/create" element={<ManufactureForm />} />
           <Route path="technicians/" element={<TechnicianList />} />
-          <Route path="technicians/create/" element={<TechnicianForm />} />
+          <Route path="technicians/create" element={<TechnicianForm />} />
           <Route path="appointments/" element={<AppointmentsList />} />
           <Route path="appointments/create" element={<AppointmentForm />} />
           <Route path="appointments/history" element={<ServiceHistory />} />
