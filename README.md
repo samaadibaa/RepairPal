@@ -3,14 +3,11 @@
 Team:
 
 - Tifa - Service
-- Person 2 - Which microservice?
+- Sama - Sales
 
 ## Design
 
 ## Service microservice
-
-Explain your models and integration with the inventory
-microservice, here.
 
 The Service microservice backend includes models for Technician, Appointment, as well as AutomobileVO. For the Technician model, there are APIs for HTTP requests including GET (list all technicians), POST (create a new technician), and DELETE (delete an existing technician). Similarly, for the Appointment model, there are also APIs for GET, POST, and DELETE to get a list of appointments, create a new appointment, and deleting an existing appointment, respectively. There is also a poller file that polls automobile data from the 'inventory' service every 60 seconds.
 
@@ -18,5 +15,4 @@ For frontend, the Service microservice has pages to view all technicians, add a 
 
 ## Sales microservice
 
-Explain your models and integration with the inventory
-microservice, here.
+I created APIs for managing sales records, including salespeople, customers, and individual sales allowing you to Create, Update, Delete api_sales_person, api_customer, api_sales, api_list_sales. After setting up the models, views, and URLs, I shifted my focus to the front-end of the project. Here, I created the required forms and lists that would be displayed on the web application. Unfortunatly, I was not able to get SalesHistoryList to work correctly. I added navigation links to Nav.js and created routes in App.js to help user navigation.
