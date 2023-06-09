@@ -116,7 +116,7 @@ function AppointmentsList() {
                 <td>{app.reason}</td>
                 <td>
                   <div
-                    class="btn-group"
+                    className="btn-group"
                     role="group"
                     aria-label="Basic mixed styles example"
                   >
