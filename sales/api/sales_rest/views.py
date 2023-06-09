@@ -121,7 +121,6 @@ def api_sales(request, pk):
             sale = Sale.objects.get(id=pk)
             automobile = sale.automobile
             sale.delete()
-            # Mark the automobile as unsold after deleting the sale
             automobile.sold = False
             automobile.save()
             return JsonResponse({"message": "Sale record deleted successfully."})
@@ -188,4 +187,3 @@ def api_list_sales(request, auto_vo_id=None):
                 {"error": str(e)},
                 status=400,
             )
-
