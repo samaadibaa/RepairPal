@@ -101,4 +101,3 @@ function SalesHistoryList() {
 }
 
 export default SalesHistoryList;
-

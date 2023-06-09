@@ -27,6 +27,7 @@ def api_sales_person(request, salesperson_id=None):
         salesperson.delete()
         return HttpResponse(status=200)
 
+
 def get_salesperson(request, salesperson_id):
     try:
         salesperson = Salesperson.objects.get(pk=salesperson_id)
@@ -40,12 +41,14 @@ def get_salesperson(request, salesperson_id):
             status=404
         )
 
+
 def get_salespeople(request):
     salespeople = Salesperson.objects.all()
     return JsonResponse(
         {"salespeople": [s.to_dict() for s in salespeople]},
         encoder=SalespersonEncoder,
     )
+
 
 def create_salesperson(request, content):
     salesperson = Salesperson.objects.create(**content)
@@ -99,14 +102,14 @@ def api_customer(request, customer_id=None):
 @require_http_methods(["GET", "DELETE"])
 def api_sales(request, pk):
     if request.method == "GET":
-        sales_record = Sale.objects.filter(salesman=pk)
+        sales_record = Sale.objects.filter(salesperson=pk).select_related('salesperson', 'customer', 'automobile')
         sales_record_list = []
-        for sales in sales_record:
+        for sale in sales_record:
             sales_record_list.append({
-                "salesperson": sales.salesman.name,
-                "customer": sales.customer.name,
-                "automobile": sales.automobile.vin,
-                "price": sales.price,
+                "salesperson": sale.salesperson.to_dict(),
+                "customer": sale.customer.to_dict(),
+                "automobile": sale.automobile.to_dict(),
+                "price": sale.price,
             })
         return JsonResponse(
             {"sales_record": sales_record_list},
@@ -116,10 +119,15 @@ def api_sales(request, pk):
     elif request.method == "DELETE":
         try:
             sale = Sale.objects.get(id=pk)
+            automobile = sale.automobile
             sale.delete()
+            # Mark the automobile as unsold after deleting the sale
+            automobile.sold = False
+            automobile.save()
             return JsonResponse({"message": "Sale record deleted successfully."})
         except Sale.DoesNotExist:
             return JsonResponse({"error": "Sale record not found."}, status=404)
+
 
 
 @require_http_methods(["GET", "POST"])
@@ -180,3 +188,4 @@ def api_list_sales(request, auto_vo_id=None):
                 {"error": str(e)},
                 status=400,
             )
+
