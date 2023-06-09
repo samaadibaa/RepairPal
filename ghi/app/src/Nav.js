@@ -17,22 +17,22 @@ function Nav() {
             </li>
             <li className="nav-item">
               <NavLink className="nav-link" to="/salesman/list">
-                List all salespeople
+                Salespeople
               </NavLink>
             </li>
             <li className="nav-item">
               <NavLink className="nav-link" to="/salesman/add">
-                Add a salesperson
+                Add a Salesperson
               </NavLink>
             </li>
             <li className="nav-item">
               <NavLink className="nav-link" to="/customer/add">
-                Add a customer
+                Add a Customer
               </NavLink>
             </li>
             <li className="nav-item">
               <NavLink className="nav-link" to="/customer/list">
-                List all customers
+                Customers
               </NavLink>
             </li>
             <li className="nav-item">
@@ -42,17 +42,22 @@ function Nav() {
             </li>
             <li className="nav-item">
               <NavLink className="nav-link" to="/automobile/list">
-                List Automobiles
+                Automobiles
               </NavLink>
             </li>
             <li className="nav-item">
               <NavLink className="nav-link" to="/manufacturers/list">
-                List Manufacturers
+                Manufacturers
               </NavLink>
             </li>
             <li className="nav-item">
               <NavLink className="nav-link" to="/sales/add">
-                Record a new sale
+                Add a sale
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/sales/list">
+                Sales
               </NavLink>
             </li>
             <li className="nav-item">
@@ -68,4 +73,3 @@ function Nav() {
 }
 
 export default Nav;
-

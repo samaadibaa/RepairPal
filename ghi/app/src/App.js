@@ -10,6 +10,7 @@ import AddCustomerForm from './AddCustomerForm';
 import AutomobileList from './AutomobileList';
 import VehicleList from './VehicleList';
 import ManufacturersList from './ManufacturerList';
+import SalesList from './SalesList';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path='/vehicles/add' element={<VehicleList />} />
           <Route path='/vehicles' element={<VehicleList />} />
           <Route path='/manufacturers/list' element={<ManufacturersList />} />
+          <Route path='/sales/list' element={<SalesList />} />
         </Routes>
       </div>
     </BrowserRouter>
