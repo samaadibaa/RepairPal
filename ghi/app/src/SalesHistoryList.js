@@ -1,101 +1,68 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react'
 
-function SalesHistoryList() {
-  const [salespeople, setSalespeople] = useState([]);
-  const [selectedSalesman, setSelectedSalesman] = useState("");
-  const [sales, setSales] = useState([]);
+function ServiceHistoryList() {
+    const [appointments, setAppointments] = useState([])
+    const [vin, setVin] = useState('')
 
-  const fetchSalesman = async () => {
-    const url = "http://localhost:8090/api/salesperson/";
-    const response = await fetch(url);
-
-    if (response.ok) {
-      const data = await response.json();
-      setSalespeople(data.salespeople);
+    const fetchAppointments = async () => {
+        const response = await fetch('http://localhost:8080/api/appointments/')
+        console.log(response)
+        if (response.ok) {
+            const data = await response.json()
+            console.log(data)
+            setAppointments(data.appointments)
+        } else {
+            console.error("Response Invalid")
+        }
     }
-  };
 
-  const fetchSales = async () => {
-    const url = `http://localhost:8090/api/sales/`;
-    const response = await fetch(url);
+    useEffect(() => {
+        fetchAppointments();
+    }, []);
 
-    if (response.ok) {
-      const data = await response.json();
-
-      setSales(data.sales);
+    const handleVinChange = (event) => {
+        const value = event.target.value
+        setVin(value)
     }
-  };
 
-  const handleSalesmanChange = (event) => {
-    const salesmanId = event.target.value;
-    setSelectedSalesman(salesmanId);
-    if (sales.length > 0) {
-      setSales(sales.filter((sale) => salesmanId !== sale.salesperson.id));
+    const handleFilter = async () => {
+        const filteredAppointments = appointments.filter(appointment=>appointment.vin === vin)
+        setAppointments(filteredAppointments)
     }
-  };
 
-  useEffect(() => {
-    fetchSales();
-    fetchSalesman();
-  }, [selectedSalesman]);
-
-  return (
-    <div className="row">
-      <div className="offset-1 col-11">
-        <div className="shadow p-4 mt-4">
-          <h1>Sales History List</h1>
-          <div className="mb-3">
-            <select
-              onChange={handleSalesmanChange}
-              value={selectedSalesman}
-              required
-              name="salesPerson"
-              id="salesPerson"
-              className="form-select"
-            >
-              <option value="">Choose a Salesman</option>
-              {salespeople.length ? (
-                salespeople.map((salesman) => (
-                  <option key={salesman.id} value={salesman.id}>
-                    {salesman.first_name + " " + salesman.last_name}
-                  </option>
-                ))
-              ) : (
-                <option disabled>No salespeople available</option>
-              )}
-            </select>
-          </div>
-          {selectedSalesman.length > 0 && (
-            <div>
-              <h2>Sales</h2>
-              <table className="table table-striped">
+    return (
+        <>
+        <h1 className='mt-5'>Service History</h1>
+        <input onChange={handleVinChange} value={vin} type="text" placeholder="Filter by VIN"/>
+        <button onClick={handleFilter}>Search</button>
+        <table className="table table-striped mt-5">
                 <thead>
-                  <tr>
-                    <th>Salesperson ID</th>
-                    <th>Salesman Name</th>
-                    <th>Customer</th>
-                    <th>VIN</th>
-                    <th>Price</th>
-                  </tr>
+                    <tr>
+                        <th>VIN</th>
+                        <th>Customer</th>
+                        <th>Date</th>
+                        <th>Technician</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                    </tr>
                 </thead>
                 <tbody>
-                  {sales.map((sale, index) => (
-                    <tr key={index}>
-                      <td>{sale.salesperson.employee_id}</td>
-                      <td>{sale.salesperson.first_name}</td>
-                      <td>{sale.customer.first_name}</td>
-                      <td>{sale.automobile.vin}</td>
-                      <td>{sale.price}</td>
-                    </tr>
-                  ))}
+                {appointments.map((appointment) => {
+                    return (
+                        <tr key={appointment.id}>
+                            <td> {appointment.vin}</td>
+                            <td> {appointment.customer}</td>
+                            <td>{appointment.date_time}</td>
+                            <td>{`${appointment.technician.first_name} ${appointment.technician.last_name}`}</td>
+                            <td>{appointment.reason}</td>
+                            <td>{appointment.status}</td>
+                        </tr>
+                        );
+                    })}
                 </tbody>
-              </table>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
+            </table>
+        </>
+    );
 }
 
-export default SalesHistoryList;
+export default ServiceHistoryList;

@@ -1,18 +1,56 @@
-# CarCar
+Design
+Project Beta is designed to function as an application to handle all of the aspects of a car dealership such as services, sales and inventory.
+The service component offers a wide range of functionalities such as managing car-servicing, from scheduling the appointments and viewing the current and past appointment history, adding and browsing through all of the on-site technicians.
+The sales component also offers an extensive range of functionalities, such as tracking a list of all the sales and viewing the history of all sale transactions, adding and browsing through all of the customers.
+The inventory component allows to conveniently access all the automobiles in the inventory, as well as add/update/delete them. You may also add specific details of the cars such as the manufacturer, model and year.
+Front-End: REACT, Bootstrap and Javascript
+Back-End: Django Framework
 
-Team:
+Service microservice
+The Service Microservice includes the following models:
 
-- Tifa - Service
-- Sama - Sales
 
-## Design
+Technician
 
-## Service microservice
+first name
+last name
+employee id
 
-The Service microservice backend includes models for Technician, Appointment, as well as AutomobileVO. For the Technician model, there are APIs for HTTP requests including GET (list all technicians), POST (create a new technician), and DELETE (delete an existing technician). Similarly, for the Appointment model, there are also APIs for GET, POST, and DELETE to get a list of appointments, create a new appointment, and deleting an existing appointment, respectively. There is also a poller file that polls automobile data from the 'inventory' service every 60 seconds.
 
-For frontend, the Service microservice has pages to view all technicians, add a technician, view all appointments, add a new appointment, and a service history page. There are also functionalities to cancel and finish an appointment (in the view all appointment page), which the status of that appointment will be reflected accordingly on the service history page. And on the service hisotry page, there is a serach box which allows user to search for a vervice via VIN. Another feature is that each appointment has a VIP status (yes/no). It is based on whether the VIN entered in appointment create form matches the VIN in our inventory. If it does, that appointment will have a status = yes. And vice versa.
 
-## Sales microservice
+Appointment
 
-I created APIs for managing sales records, including salespeople, customers, and individual sales allowing you to Create, Update, Delete api_sales_person, api_customer, api_sales, api_list_sales. After setting up the models, views, and URLs, I shifted my focus to the front-end of the project. Here, I created the required forms and lists that would be displayed on the web application. Unfortunatly, I was not able to get SalesHistoryList to work correctly. I added navigation links to Nav.js and created routes in App.js to help user navigation.
+date
+reason
+status
+vin
+customer
+technician
+
+
+
+AutomobileVO
+
+vin
+
+
+
+AutomobileVO is created and updated via polling to fetch data from the  Inventory API
+
+Sales microservice
+The Sales Microservice includes the following models:
+
+
+Sale
+
+
+Customer
+
+
+Salesperson
+
+
+AutomobileVO
+
+
+AutomobileVO is created and updated via polling to fetch data from the  Inventory API

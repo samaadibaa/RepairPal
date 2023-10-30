@@ -1,59 +1,64 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react'
 
-const SalesList = () => {
-  const [sales, setSales] = useState([]);
+function SalesList() {
+    const [sales, setSales] = useState([])
 
-  const getData = async () => {
-    try {
-      const response = await fetch('http://localhost:8090/api/sales/');
-      if (response.ok) {
-        const data = await response.json();
-        setSales(data.sales);
-      } else {
-        console.error('Error:', response.status);
-      }
-    } catch (error) {
-      console.error('Error:', error);
+    const fetchData = async () => {
+        const response = await fetch('http://localhost:8090/api/sales/')
+
+        if (response.ok) {
+            const data = await response.json()
+            setSales(data.sales)
+        }
     }
-  };
 
-  useEffect(() => {
-    getData();
-  }, []);
+    const deleteSale = async (id) => {
+        const response = await fetch(`http://localhost:8090/api/sales/${id}`, {
+            method: 'DELETE',
+        })
 
-  return (
-    <div className="offset-0 col-12 bg-info">
-      <div className="shadow p-4 mt-4">
-        <div className="flex justify-content-center">
-          <h1 className="text-center text-white">List of Sales</h1>
-        </div>
-        <table className="table">
-          <thead>
-            <tr>
-              <th className="text-center">Salesperson Name</th>
-              <th className="text-center">Employee ID</th>
-              <th className="text-center">Customer Name</th>
-              <th className="text-center">Automobile VIN</th>
-              <th className="text-center">Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sales.map((sale, index) => {
-              return (
-                <tr className="bg-light" key={index}>
-                  <td className="text-center">{sale.salesperson.first_name}</td>
-                  <td className="text-center">{sale.salesperson.employee_id}</td>
-                  <td className="text-center">{sale.customer.first_name}</td>
-                  <td className="text-center">{sale.automobile.vin}</td>
-                  <td className="text-center">{sale.price}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-};
+        if (response.ok) {
+            setSales(sales.filter((sale) => sale.id !== id))
+        }
+    }
 
-export default SalesList;
+    useEffect(() => {
+        fetchData()
+    }, [])
+
+    return (
+        <>
+            <h2 className='display-3 mt-5'>Sales</h2>
+            <table className="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Automobile VIN</th>
+                        <th>Salesperson</th>
+                        <th>Customer</th>
+                        <th>Price</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {sales.map(sale => {
+                        return (
+                            <tr key={sale.id}>
+                                <td>{sale.automobile.vin}</td>
+                                <td>{sale.salesperson.first_name} {sale.salesperson.last_name}</td>
+                                <td>{sale.customer.first_name} {sale.customer.last_name}</td>
+                                <td>{sale.price}</td>
+                                <td>
+                                    <button className="btn btn-danger" onClick={() => deleteSale(sale.id)} />
+                                </td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
+            </table>
+        </>
+    )
+
+}
+
+export default SalesList
+
